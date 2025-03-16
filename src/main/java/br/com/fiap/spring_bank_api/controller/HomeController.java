@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
     @GetMapping
     public String home() {
-        return "Projeto Bank - Equipe: Celso e Thiago";
+        return "Projeto Bank - Equipe: Celso Teixeira RM556118 e Thiago Moreno Matheus RM554507";
     }
 }
