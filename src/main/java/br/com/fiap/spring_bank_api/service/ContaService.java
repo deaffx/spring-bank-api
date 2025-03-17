@@ -1,39 +1,44 @@
 package br.com.fiap.spring_bank_api.service;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 import br.com.fiap.spring_bank_api.model.Conta;
 import br.com.fiap.spring_bank_api.repository.ContaRepository;
-
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ContaService {
     private final ContaRepository contaRepository;
 
+    @Transactional
     public Conta criarConta(Conta conta) {
         validarConta(conta);
-        return contaRepository.salvar(conta);
+        conta.setAtiva(true);
+        return contaRepository.save(conta);
     }
 
     public List<Conta> listarTodas() {
-        return contaRepository.listarTodas();
+        return contaRepository.findAll();
     }
 
     public Optional<Conta> buscarPorId(Long id) {
-        return contaRepository.buscarPorId(id);
+        return contaRepository.findById(id);
     }
 
     public Optional<Conta> buscarPorCpf(String cpf) {
-        return contaRepository.buscarPorCpf(cpf);
+        return contaRepository.findByCpfTitular(cpf);
     }
 
+    @Transactional
     public void encerrarConta(Long id) {
-        contaRepository.encerrarConta(id);
+        contaRepository.findById(id).ifPresent(conta -> {
+            conta.setAtiva(false);
+            contaRepository.save(conta);
+        });
     }
 
     private void validarConta(Conta conta) {

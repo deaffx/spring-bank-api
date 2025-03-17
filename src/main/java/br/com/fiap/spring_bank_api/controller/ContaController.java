@@ -1,13 +1,11 @@
 package br.com.fiap.spring_bank_api.controller;
 
-import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import br.com.fiap.spring_bank_api.model.Conta;
 import br.com.fiap.spring_bank_api.service.ContaService;
-
 import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 @RestController
 @RequestMapping("/contas")
